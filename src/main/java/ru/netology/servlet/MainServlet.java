@@ -1,9 +1,8 @@
 package ru.netology.servlet;
 
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.netology.controller.PostController;
-import ru.netology.repository.PostRepository;
-import ru.netology.service.PostService;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -11,19 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 
 public class MainServlet extends HttpServlet {
     private PostController postController;
-    public static final String API_POSTS = "/api/posts";
-    public static final String API_POSTS_ID = "/api/posts/\\d+";
-    public static final String STR = "/";
-    public static final String METHOD_GET = "GET";
-    public static final String METHOD_POST = "POST";
+    private static final String API_POSTS = "/api/posts";
+    private static final String API_POSTS_ID = "/api/posts/\\d+";
+    private static final String STR = "/";
+    private static final String METHOD_GET = "GET";
+    private static final String METHOD_POST = "POST";
 
-    public static final String METHOD_DELETE = "DELETE";
+    private static final String METHOD_DELETE = "DELETE";
 
     @Override
     public void init() {
-        final var repository = new PostRepository();
-        final var service = new PostService(repository);
-        postController = new PostController(service);
+        final var context = new AnnotationConfigApplicationContext("ru.netology");
+        postController = context.getBean(PostController.class);
     }
 
     @Override
